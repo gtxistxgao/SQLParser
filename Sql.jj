@@ -1,246 +1,0 @@
-options {
-	IGNORE_CASE = true;
-	STATIC = true;
-}
-
-PARSER_BEGIN(Parser)
-    
-public class Parser {
-    public static String parse(String args) throws Exception {
-        Parser parse = new Parser(new java.io.StringReader(args));
-		String rst = parse.Query();
-		return rst;
-    }
-}
-
-PARSER_END(Parser)
-
-SKIP:
-{
-    " "
-|   "\t"
-|   "\r"
-|   "\n"
-}
-
-TOKEN: 
-{
-    < SELECT : "SELECT" >
-|   < FROM : "FROM" >
-|   < WHERE : "WHERE" >
-|   < AND : "AND" >
-}
-
-TOKEN : { < OPEN_PAR : "(" > }
-TOKEN : { < CLOSE_PAR : ")" > }
-TOKEN : { < DOT : "." >}
-TOKEN : { < COMMA : ",">}
-TOKEN : { < QUO : "\"">}
-TOKEN : { < OPERATOR : ">" | "< " | "=" | ">=" | "<=" | "<>" | "!=">}
-
-TOKEN : { < DIGITS : (["0"-"9"])+ > }
-TOKEN : { < NAME : (["a"-"z" , "0"-"9"])+ > }
-
-
-String Query():
-{
-	String rst;
-}
-{
-	rst = SFWStatement()
-	<EOF>
-	{return "<dbQuery>" + rst + "</dbQuery>"; }
-}
-
-String SFWStatement():
-{
-	String select = "";
-	String from = "";
-	String where = "";
-}
-{
-	select = SelectClause()
-	from = FromClause()
-	where = WhereClause()
-	{return
-	"<dbSFWStatement>"
-	+
-	select
-	+
-	from
-	+
-	where
-	+
-	"</dbSFWStatement>"; }
-}
-
-String SelectClause():
-{
-	String select;
-}
-{
-	<SELECT>
-	select = Attr()
-	{
-		return 
-		"<dbSelectClause>"
-		+
-		select
-		+
-		"</dbSelectClause>";
-	}
-}
-
-String Attr():
-{
-	Token relation;
-	Token attr;
-	String subAttr = "";
-}
-{
-	relation = <NAME> 
-	< DOT >
-	attr = <NAME>
-	(< COMMA > subAttr = Attr())*
-	{
-		return 
-		"<dbAttr>"+
-			"<dbRelVar> <dbRelAliasName Token=\""+relation.image+"\" /> </dbRelVar>"
-			+
-			"<dbAttrName Token=\""+attr.image+"\" /> "
-			+
-		"</dbAttr>"
-		+ subAttr;
-	}
-}
-
-String FromClause():{
-	String from;}{
-	<FROM>
-	from = RelVal()
-	{		return
-		"<dbFromClause>"
-		+
-		from
-		+
-		"</dbFromClause>";
-	}}
-
-String RelVal():{
-	Token realName;
-	Token aliasName;
-	String subVal = "";}{
-	realName = < NAME >
-	aliasName = < NAME >
-	(< COMMA >  subVal = RelVal())*
-	{
-		return
-		"<dbRelVar>"
-		+
-		"<dbRelName Token=\""
-		+
-		realName.image
-		+
-		"\" />"
-		+
-		"<dbRelAliasName Token=\""
-		+
-		aliasName.image
-		+
-		"\" /> </dbRelVar>"
-		+
-		subVal;	}}
-
-String WhereClause():
-{
-	String where = "";}
-{
-  	< WHERE >
-	where = Expression()
-	{		return
-		"<dbWhereClause>"
-		+
-		where
-		+
-		"</dbWhereClause>";
-	}}
-
-String Expression():
-{
-	String exp1 = "";
-	String exp2 = "";}{	<OPEN_PAR>	exp1 = Expression()	<CLOSE_PAR>	( < AND > exp2 = Expression())*	{		return		"<BooleanExp>"		+		exp1		+		exp2		+		"</BooleanExp>";	}|
-	exp1 = Factor()
-	( < AND > exp2 = Expression())*
-	{
-		return
-		"<BooleanExp>"
-		+
-		exp1
-		+
-		exp2
-		+
-		"</BooleanExp>";
-	}}
-
-String Factor():
-{
-	String left = "";
-	String right = "";
-	String operator;}{
-	left = BooleanAttr()
-	operator = Operator()
-	right = BooleanAttr()
-	{
-		return
-		"<BooleanFactor>" +
-		left +
-		operator +
-		right +
-		"</BooleanFactor>";
-	}}
-
-String BooleanAttr():
-{ 
-	Token rel;
-	Token attr;
-	String attrName = "";}{
-	rel = <DIGITS>
-	{
-		return
-		"<dbConstValue> <INTEGERLITERAL Token=\"" + rel.image + "\"/> </dbConstValue>";
-	}
-|
-	rel = < NAME >
-	< DOT >
-	attr = < NAME >
-	{
-		return
-		"<dbAttr>" +
-		"<dbRelVar> <dbRelAliasName Token=\"" + rel.image + "\" /> </dbRelVar>" +
-		"<dbAttrName Token=\"" + attr.image + "\" /> </dbAttr>";
-	}
-| 
-	< QUO >
-	rel = < NAME >
-	< QUO >
-	{
-		return
-		"<dbConstValue><STRINGLITERAL Token=\"" + rel.image + "\"/> </dbConstValue>";
-	}}
-
-String Operator():
-{
-	Token operator;
-}
-{
-	operator = <OPERATOR>
-	{
-		return
-		"<comparisonOp Token=\"" + operator.image + "\" />";
-	}
-}
-
-
-
-
-
