@@ -532,6 +532,8 @@ String Operator() :
 
 5. email me if have any other questions regarding this project, email is in the Main.java File.
 
+6. If using JavaCC for the first time. The javacc tutorial is a very good reference to learn how to use it. After following all the instructions in the tutorial. I believe it is understandable on this project.
+
 Thanks
 
 Tianxiang
