@@ -136,7 +136,7 @@ String outputPath = "AST.xml";
 
 1. The Main.java will not be generated automatically by javacc. So if you need to use the parser for other purpose, please read the Main.java File to modify the file as the way you need.
 
-1. email gtx@iastae.edu if have any other questions regard this project.
+1. email gtx@iastae.edu if have any other questions regard of this project.
 
 Thanks
 
