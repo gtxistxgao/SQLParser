@@ -1,5 +1,15 @@
 # SQLParser
 
+Till now, the SQLParser support the parse of 
+
+```
+select ...
+from ...
+where
+```
+
+the output will be a abstract syntax tree (AST) as AST.xml
+
 1. put “input.txt” and “AST.xml” into Project file Path
 2. if you want to input other files of input. change the inputPath String in the Main.java
 
