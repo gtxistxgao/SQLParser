@@ -158,7 +158,7 @@ The corresponding abstract syntax tree should corresponding to the same structur
 ```
 
 #JavaCC Grammar Explanation
-In JavaCC, we have two method to implement this parser. First one is to use jjtree, which is a preprocessor for JavaCC that inserts parse tree building actions at various places in the JavaCC source. The output of JJTree is run through JavaCC to create the parser. However, in this project, I directly use the second option, \*.jj file to implement it. The grammar are explained as following.
+In JavaCC, we have two method to implement this parser. First one is to use jjtree, which is a preprocessor for JavaCC that inserts parse tree building actions at various places in the JavaCC source. The output of JJTree is run through JavaCC to create the parser. However, in this project, I directly use the second option, .jj file to implement it. The grammar are explained as following.
 
 First, we need to set the options as what we need. In this case, ignore the case and make the method static.
 
@@ -352,14 +352,11 @@ String Attr() :
   }
 }
 ```
-The regular expression ```(< COMMA > subAttr = Attr())\*``` will recursively all it self to find all the attributes.
-  The warning is fine in this command because javacc prefer us to use LOOKAHEAD, but this way is also fine
-/*
+The regular expression ```(< COMMA > subAttr = Attr())*``` will recursively all it self to find all the attributes. The warning is fine in this command because javacc prefer us to use LOOKAHEAD, but our way is also fine.
 
-this is the from clause, we will call RelVal() method to find all relations
+Next is the from clause, we will call RelVal() method to find all relations
 
-*/
-
+```
 String FromClause() :
 {
   String from;
@@ -370,12 +367,11 @@ String FromClause() :
     return "<dbFromClause>" + from + "</dbFromClause>";
   }
 }
-/*
+```
 
-this method will find all the relations in the from clause
+the RelVal() method will find all the relations in the from clause. The regular expression ```(< COMMA > subVal = RelVal())*```will recursively all this method to find all the reaName and aliasName in the from clause.
 
-*/
-
+```
 String RelVal() :
 {
   Token realName;
@@ -384,11 +380,6 @@ String RelVal() :
 }
 {
   realName = < NAME > aliasName = < NAME >
-  /*
-  
-  next regular expression will recursively all this method to find all the reaName and aliasName in the from clause
-  
-  */
   (
     < COMMA > subVal = RelVal()
   )*
@@ -396,13 +387,12 @@ String RelVal() :
     return "<dbRelVar>" + "<dbRelName Token=\"" + realName.image + "\" />" + "<dbRelAliasName Token=\"" + aliasName.image + "\" /> </dbRelVar>" + subVal;
   }
 }
-/*
+```
 
-next is the where clause. It will have several recursion next in this method.
+Next is the where clause. It will have several recursion next in this method.
 First we call Expression and assign false to represent that this is the first time we call it, So it must add <BooleanExp><\BooleanExp> out of the where clause abstract syntex tree
 
-*/
-
+```
 String WhereClause() :
 {
   String where = "";
@@ -413,41 +403,30 @@ String WhereClause() :
     return "<dbWhereClause>" + where + "</dbWhereClause>";
   }
 }
-/*
+```
 
-this method will find all the boolean factors and add BooleanExp in the case we have more than two boolean factors or has parenthesis in some of the boolean factors.
+The Expression() method will find all the boolean factors and add BooleanExp in the case we have more than two boolean factors or has parenthesis in some of the boolean factors. In each call of this method, it will firstly check if there is parenthesis in this boolean expression, if true, we take the first boolean factor and check if there are parenthesis in this parenthesis and pass a true value to the next recursion in the case when we have"((...))" in the query. If hasFather == true means we have the <BooleanExp></BooleanExp> out of this time's call. Then we check if exp2 is empty. if exp2 is empty after the parsing. This means this time is the final BooleanFactor in this BooleanExpression and we don't want to have a single BooleanFactor in the BooleanExp, so we will not add "<BooleanExp>"..."</BooleanExp>" out of it. If it has no father parenthesis out of it or exp2 not empty, we need to add the BooleanExp out of exp1 + exp2. Next, if the first token is not parenthesis, we need to check if this satisfy the boolean factor rules. So we call Factor() method to parse it. If the first factor is good, we need to check the next one. 
+```(< AND > exp2 = Expression(true))*``` can be a boolean factor or a parenthesis, so we call Expression() method again.
 
-*/
-
+```
 String Expression(boolean hasFather) :
 {
   String exp1 = "";
   String exp2 = "";
 }
 {
-  /*
-  
-  first check if there is parenthesis in this boolean expression, if true, we take the first boolean factor and check if there are parenthesis in this parenthesis and pass a true value to the next recursion in the case when we have"((...))" in the query 
-  
-  */
   < OPEN_PAR > exp1 = Expression(true) < CLOSE_PAR >
   (
     < AND > exp2 = Expression(true)
   )*
   {
-    /* if hasFather == true means we have the <BooleanExp></BooleanExp> out of this time's call.
-    	then we check if exp2 is empty. if exp2 is empty after the parsing. This means this time is the final BooleanFactor in this BooleanExpression and we don't want to have a single BooleanFactor in the BooleanExp, so we will not add "<BooleanExp>"..."</BooleanExp>" out of it.
-    */
     if (hasFather == true && exp2.equals(""))
     {
       return exp1;
     }
-    /* if it has no father parenthesis out of it or exp2 not empty, we need to add the BooleanExp out of exp1 + exp2*/
     return "<BooleanExp>" + exp1 + exp2 + "</BooleanExp>";
   }
-  /* next, if the first token is not parenthesis, we need to check if this satisfy the boolean factor rules. So we call Factor() method to parse it*/
 | exp1 = Factor()
-  /* if the first factor is good, we need to check the next one. the next one can be a boolean factor or a parenthesis, so we call Expression() method again.*/
   (
     < AND > exp2 = Expression(true)
   )*
@@ -463,16 +442,15 @@ String Expression(boolean hasFather) :
     }
   }
 }
-/*
+```
 
-this method will parse the Boolean factor. It can be three situation.
+the Factor() method will parse the Boolean factor. It can be three situation.
 1. it is a table.Attribute. such as "Emp.Name = Dep.MName"
 2. it is a string literal. such as "Emp.Name = "james""
 3. it is a integer literal. such as "Emp.Salary = 7000"
 So we can find all three situation has a left part and and an operation and a right part. 
 
-*/
-
+```
 String Factor() :
 {
   String left = "";
@@ -488,17 +466,16 @@ String Factor() :
     return "<BooleanFactor>" + left + operator + right + "</BooleanFactor>";
   }
 }
-/*
+```
 
-the attribute can have three situation as well.
+the BooleanAttr() method can have three situations as well.
 1. name.name such as "Emp.Name"
 2. String Literal such as "James"
 3. Integer Literal such as 7000
 
 so this method will check them and return the corresponding attribute
 
-*/
-
+```
 String BooleanAttr() :
 {
   Token rel;
@@ -519,8 +496,11 @@ String BooleanAttr() :
     return "<dbConstValue><STRINGLITERAL Token=\"" + rel.image + "\"/> </dbConstValue>";
   }
 }
-/*this method will check the operator and return it as it is. */
+```
 
+Finally, the operator() method will check the operator and return it as what it is.
+
+```
 String Operator() :
 {
   Token operator;
@@ -531,27 +511,26 @@ String Operator() :
     return "<comparisonOp Token=\"" + operator.image + "\" />";
   }
 }
-
 ```
 
 #Outline:
 
 1. put “input.txt” and “AST.xml” into Project file Path
-1. if you want to input other files of input. change the inputPath String in the Main.java
+2. if you want to input other files of input. change the inputPath String in the Main.java
 
 ```
 String inputPath = "input.txt";
 ```
 
-1. the AST.xml will be generated automatically in the Java Project file folder. So if want the output in other folders, change the outputPath in the Main.java
+3. the AST.xml will be generated automatically in the Java Project file folder. So if want the output in other folders, change the outputPath in the Main.java
 
 ```
 String outputPath = "AST.xml";
 ```
 
-1. The Main.java will not be generated automatically by javacc. So if you need to use the parser for aother purpose, please read the Main.java File to modify the file as the way you need.
+4. The Main.java will not be generated automatically by javacc. So if you need to use the parser for aother purpose, please read the Main.java File to modify the file as the way you need.
 
-1. email g t x (at) i a s t a t e . e d u if have any other questions regarding this project.
+5. email g t x (at) i a s t a t e . e d u if have any other questions regarding this project.
 
 Thanks
 
