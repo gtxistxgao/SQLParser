@@ -513,24 +513,24 @@ String Operator() :
 }
 ```
 
-#Outline:
+#User Guide
 
-1. put “input.txt” and “AST.xml” into Project file Path
+1. put “input.txt” and “AST.xml” into Project file Path. For example, in eclipse, out of src and bin folder.
 2. if you want to input other files of input. change the inputPath String in the Main.java
 
-```
-String inputPath = "input.txt";
-```
+	```
+	String inputPath = "input.txt";
+	```
 
 3. the AST.xml will be generated automatically in the Java Project file folder. So if want the output in other folders, change the outputPath in the Main.java
 
-```
-String outputPath = "AST.xml";
-```
+	```
+	String outputPath = "AST.xml";
+	```
 
 4. The Main.java will not be generated automatically by javacc. So if you need to use the parser for aother purpose, please read the Main.java File to modify the file as the way you need.
 
-5. email g t x (at) i a s t a t e . e d u if have any other questions regarding this project.
+5. email me if have any other questions regarding this project, email is in the Main.java File.
 
 Thanks
 
