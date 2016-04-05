@@ -1,0 +1,3 @@
+select e.Name, d.MName 
+from Emp e, Dept d 
+where d.Name = c.MName and (((c.Salary > 7000 and d.Name = "James" and c.Name = d.Name)))
