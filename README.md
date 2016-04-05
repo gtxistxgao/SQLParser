@@ -245,7 +245,7 @@ In case that quotation mark " will be used in the where part when it's a STRINGL
 ```
 TOKEN :
 {
-  < QUO : "\"" >
+  < QUO : """ >
 }
 ```
 
@@ -283,7 +283,7 @@ TOKEN :
 }
 ```
 
-start the query, call SFWStatement() and add "<dbQuery>""</dbQuery>" out of the SFWStatement.
+start the query, call SFWStatement() and add ```"<dbQuery>""</dbQuery>"``` out of the SFWStatement.
 
 ```
 String Query() :
@@ -390,7 +390,7 @@ String RelVal() :
 ```
 
 Next is the where clause. It will have several recursion next in this method.
-First we call Expression and assign false to represent that this is the first time we call it, So it must add <BooleanExp><\BooleanExp> out of the where clause abstract syntex tree
+First we call Expression and assign false to represent that this is the first time we call it, So it must add ```<BooleanExp><\BooleanExp>``` out of the where clause abstract syntex tree.
 
 ```
 String WhereClause() :
@@ -405,7 +405,7 @@ String WhereClause() :
 }
 ```
 
-The Expression() method will find all the boolean factors and add BooleanExp in the case we have more than two boolean factors or has parenthesis in some of the boolean factors. In each call of this method, it will firstly check if there is parenthesis in this boolean expression, if true, we take the first boolean factor and check if there are parenthesis in this parenthesis and pass a true value to the next recursion in the case when we have"((...))" in the query. If hasFather == true means we have the <BooleanExp></BooleanExp> out of this time's call. Then we check if exp2 is empty. if exp2 is empty after the parsing. This means this time is the final BooleanFactor in this BooleanExpression and we don't want to have a single BooleanFactor in the BooleanExp, so we will not add "<BooleanExp>"..."</BooleanExp>" out of it. If it has no father parenthesis out of it or exp2 not empty, we need to add the BooleanExp out of exp1 + exp2. Next, if the first token is not parenthesis, we need to check if this satisfy the boolean factor rules. So we call Factor() method to parse it. If the first factor is good, we need to check the next one. 
+The Expression() method will find all the boolean factors and add BooleanExp in the case we have more than two boolean factors or has parenthesis in some of the boolean factors. In each call of this method, it will firstly check if there is parenthesis in this boolean expression, if true, we take the first boolean factor and check if there are parenthesis in this parenthesis and pass a true value to the next recursion in the case when we have"((...))" in the query. If hasFather == true means we have the ```<BooleanExp>...</BooleanExp>``` out of this time's call. Then we check if exp2 is empty. if exp2 is empty after the parsing. This means this time is the final BooleanFactor in this BooleanExpression and we don't want to have a single BooleanFactor in the BooleanExp, so we will not add ```<BooleanExp> ... </BooleanExp>``` out of it. If it has no father parenthesis out of it or exp2 not empty, we need to add the BooleanExp out of exp1 + exp2. Next, if the first token is not parenthesis, we need to check if this satisfy the boolean factor rules. So we call Factor() method to parse it. If the first factor is good, we need to check the next one. 
 ```(< AND > exp2 = Expression(true))*``` can be a boolean factor or a parenthesis, so we call Expression() method again.
 
 ```
@@ -444,11 +444,11 @@ String Expression(boolean hasFather) :
 }
 ```
 
-the Factor() method will parse the Boolean factor. It can be three situation.
+The Factor() method will parse the Boolean factor. It can be three situations.
 1. it is a table.Attribute. such as "Emp.Name = Dep.MName"
 2. it is a string literal. such as "Emp.Name = "james""
 3. it is a integer literal. such as "Emp.Salary = 7000"
-So we can find all three situation has a left part and and an operation and a right part. 
+So we set them as left part and and an operation and a right part and parse them one by one.
 
 ```
 String Factor() :
@@ -458,7 +458,6 @@ String Factor() :
   String operator;
 }
 {
-  /*so we parse the left, right and operator one by one*/
   left = BooleanAttr()
   operator = Operator()
   right = BooleanAttr()
@@ -532,7 +531,7 @@ String Operator() :
 
 5. email me if have any other questions regarding this project, email is in the Main.java File.
 
-6. If using JavaCC for the first time. The[JavaCC Tutorial](https://github.com/PosFrank/SQLParser/blob/master/javacc-tutorial.pdf) is a very good reference to learn how to use it. After following all the instructions in the tutorial. I believe it is understandable on this project.
+6. If using JavaCC for the first time. The [JavaCC Tutorial](https://github.com/PosFrank/SQLParser/blob/master/javacc-tutorial.pdf) is a very good reference to learn how to use it. After following all the instructions in the tutorial. I believe it is understandable on this project.
 
 Thanks
 
