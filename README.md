@@ -1,4 +1,6 @@
 # SQLParser
+## Overview
+
 The purpose of this SQL Parser is to parse the input SQL query then generate the abstract syntax tree (AST). We can write by Javacc, which is an open source parser generator and lexical analyzer generator written in the Java programming language. Till now, the parser can support the simple SQL as follow:
 
 ```
@@ -7,9 +9,15 @@ from ...
 where ...
 ```
 
+The work should be down by the following flow:
+
+```
+program jj file -> program Main.java -> compile .jj file -> compile .java files
+```
+
 Besides, the boolean relations in "where" part will only be "and". The output will be a abstract syntax tree (AST) as "AST.xml". An example is shown as below:
 
-#Example
+## Example
 
 ```
 select e.Name, d.MName 
@@ -132,7 +140,7 @@ the original output is not formatted but it's fine since it is an XML file. The 
 </dbQuery>
 ```
 
-##Example Explanation
+## Example Explanation
 Firstly, this SQL query will not check if the alias name of table in the "where" clause have it's corresponding alias name in "from" clause. Secondly, this SQL query example has the most situation. Especially in the where part, situations are more complicated than "select" and "from" part. In "where" clause, we will have "STRINGLITERAL", "INTEGERLITERAL" and relation.attribute. In the example, the "where" part is 
 
 ```
@@ -157,7 +165,7 @@ The corresponding abstract syntax tree should corresponding to the same structur
 </dbWhereClause>
 ```
 
-#JavaCC Grammar Explanation
+## JavaCC Grammar Explanation
 In JavaCC, we have two method to implement this parser. First one is to use jjtree, which is a preprocessor for JavaCC that inserts parse tree building actions at various places in the JavaCC source. The output of JJTree is run through JavaCC to create the parser. However, in this project, I directly use the second option, .jj file to implement it. The grammar are explained as following.
 
 First, we need to set the options as what we need. In this case, ignore the case and make the method static.
@@ -512,7 +520,7 @@ String Operator() :
 }
 ```
 
-#Compile Parser
+## Compile Parser
 
 Go to your jj file's folder. Then type:
 ```
@@ -554,7 +562,7 @@ franktekimbp:MyProgram frankgao$ javac *.java
 ```
 Then the Parser is compiled.
 
-##Use the Parser
+## Use the Parser
 
 So next I'm going to explain how to use the parser.
 
@@ -574,7 +582,7 @@ private static String parse(String input) {
 ```
 Then we can do something to the AST String. I will print it out and output it into an AST.xml file. That's it.
 
-#User Guide
+## User Guide
 
 1. put “input.txt” and “AST.xml” into Project file Path. For example, in eclipse, out of src and bin folder.
 2. if you want to import other files as input. change the inputPath String in the Main.java
