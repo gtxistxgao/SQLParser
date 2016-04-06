@@ -340,7 +340,15 @@ Then the Parser is compiled.
 
 So next I'm going to explain how to use the parser.
 
-In this demo, I will use Main.java to show how to use the Parser. We can directly use the Parser.parse(input) to parse the input String. The parse() method will return the AST String.
+In this demo, I will use Main.java to show how to use the Parser. 
+input is a String of SQL query. For example:
+```
+input = "
+select e.Name, d.MName 
+from Emp e, Dept d 
+where e.Name = "Jonny" and (d.Name = c.MName and c.Salary > 7000) and d.Name = "James" and c.Name = d.Name"
+```
+Call the Parser.parse(input) to parse the input String. The parse() method will return the AST String.
 
 ```
 private static String parse(String input) {
