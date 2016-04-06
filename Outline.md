@@ -241,11 +241,10 @@ TOKEN :
 {
   < NAME : ([ "a"-"z", "0"-"9" ])+ >
 }
+```
 
-### From an XML Structure
-
+### Form an XML Structure
 Next is to write the grammar to build up the XML structure. As we know, XML documents form a tree structure that starts at "the root" and branches to "the leaves". 
-
 ```
 <root>
 	<child>
@@ -254,9 +253,7 @@ Next is to write the grammar to build up the XML structure. As we know, XML docu
 </root>
 ```
 Every level in xml need a start tag and a close tag. For example, the root has a start tag ```<root>``` and a close tag ```</root>```. 
-
 So in this project, the idea is that we can construct our xml file by add a start tag and close tag. 
-
 For example, in starting the query, call SFWStatement() and add ```"<dbQuery>"``` and ```"</dbQuery>"``` out of the SFWStatement.
 ```
 String Query() :
