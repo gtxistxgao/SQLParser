@@ -320,15 +320,15 @@ String BooleanAttr() :
   String attrName = "";
 }
 {
-  rel = < DIGITS >
+  rel = < DIGITS >	------------------------------------> when it is number
   {
     return ...;
   }
-| rel = < NAME > < DOT > attr = < NAME >
+| rel = < NAME > < DOT > attr = < NAME >	------------> when it is a relation.attribute
   {
     return ...;
   }
-| < QUO > rel = < NAME > < QUO >
+| < QUO > rel = < NAME > < QUO >  ----------------------> when it is a String
   {
     return ...;
   }
