@@ -226,9 +226,10 @@ TOKEN :
 | < AND : "AND" >
 }
 ```
+We can set up other tokens by the similar method. 
 #### Use Regular Expression
-We can set up other tokens by the similar method. Besides, there are two token used regular expression shown as follow:
-
+To recognise some patterns, there are two token used regular expression shown as follow:
+This token will recognise a String only consist of numbers.
 ```
 TOKEN :
 {
