@@ -320,7 +320,7 @@ String Attr() :
 }
 ```
 
-## JJ File Conclusion
+### JJ File Conclusion
 
 So based on the ideas explained above, we can program a .jj file to Parse XML Query. For more details of how to implement jj file, please see the README file.
 
@@ -354,7 +354,7 @@ Then the Parser is compiled.
 
 So next I'm going to explain how to use the parser.
 
-In this demo, I will use Main.java to show how to use the Parser. We can directly use the Parser.parse(input) to parse the input String. The method will return the AST.
+In this demo, I will use Main.java to show how to use the Parser. We can directly use the Parser.parse(input) to parse the input String. The parse() method will return the AST String.
 
 ```
 private static String parse(String input) {
