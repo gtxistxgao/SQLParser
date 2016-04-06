@@ -305,6 +305,35 @@ String Attr() :
   }
 }
 ```
+### How to deal with multiply branches in the method.
+
+We can add a "|" symbol to let the method to match. For instance, BooleanAttr() method can have three situations. It will check them and return the corresponding attribute.
+For example,
+1. name.name such as "Emp.Name"
+2. String Literal such as "James"
+3. Integer Literal such as 7000
+```
+String BooleanAttr() :
+{
+  Token rel;
+  Token attr;
+  String attrName = "";
+}
+{
+  rel = < DIGITS >
+  {
+    return ...;
+  }
+| rel = < NAME > < DOT > attr = < NAME >
+  {
+    return ...;
+  }
+| < QUO > rel = < NAME > < QUO >
+  {
+    return ...;
+  }
+}
+```
 
 ### JJ File Conclusion
 
