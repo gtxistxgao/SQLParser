@@ -535,22 +535,6 @@ franktekimbp:MyProgram frankgao$ javacc SQLParser.jj
 Java Compiler Compiler Version 5.0 (Parser Generator)
 (type "javacc" with no arguments for help)
 Reading from file SQLParser.jj . . .
-Warning: Choice conflict in (...)* construct at line 207, column 3.
-         Expansion nested within construct and expansion following construct
-         have common prefixes, one of which is: ","
-         Consider using a lookahead of 2 or more for nested expansion.
-Warning: Choice conflict in (...)* construct at line 249, column 3.
-         Expansion nested within construct and expansion following construct
-         have common prefixes, one of which is: ","
-         Consider using a lookahead of 2 or more for nested expansion.
-Warning: Choice conflict in (...)* construct at line 291, column 3.
-         Expansion nested within construct and expansion following construct
-         have common prefixes, one of which is: "AND"
-         Consider using a lookahead of 2 or more for nested expansion.
-Warning: Choice conflict in (...)* construct at line 308, column 3.
-         Expansion nested within construct and expansion following construct
-         have common prefixes, one of which is: "AND"
-         Consider using a lookahead of 2 or more for nested expansion.
 File "TokenMgrError.java" does not exist.  Will create one.
 File "ParseException.java" does not exist.  Will create one.
 File "Token.java" does not exist.  Will create one.
@@ -558,7 +542,7 @@ File "SimpleCharStream.java" does not exist.  Will create one.
 Parser generated with 0 errors and 4 warnings.
 ```
 
-As we explained before, the warnings are fine. Then we compile all the .java files.
+Then we compile all the .java files.
 
 ```
 franktekimbp:MyProgram frankgao$ javac *.java
