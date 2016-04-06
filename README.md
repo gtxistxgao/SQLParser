@@ -9,13 +9,16 @@ from ...
 where ...
 ```
 
+Besides, the boolean relations in "where" part will only be "and". The output will be a abstract syntax tree (AST) as "AST.xml". 
+
+### Work flow
+
 The work should be down by the following flow:
 
 ```
 program jj file -> program Main.java -> compile .jj file -> compile .java files
 ```
-
-Besides, the boolean relations in "where" part will only be "and". The output will be a abstract syntax tree (AST) as "AST.xml". An example is shown as below:
+Then we can use the Parser. In the following sections, I will explain how to design the .jj file and how to use Main.java to CALL the method in the Parser class. First I will show a demo example of the program, then I will explain how to program the parser.
 
 ## Example
 
