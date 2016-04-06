@@ -515,25 +515,25 @@ String Operator() :
 #User Guide
 
 1. put “input.txt” and “AST.xml” into Project file Path. For example, in eclipse, out of src and bin folder.
-2. if you want to input other files of input. change the inputPath String in the Main.java
+2. if you want to import other files as input. change the inputPath String in the Main.java
 
 	```
 	String inputPath = "input.txt";
 	```
 
-3. the AST.xml will be generated automatically in the Java Project file folder. So if want the output in other folders, change the outputPath in the Main.java
+3. the AST.xml will be generated automatically in the Java Project file folder. So if want the output into other folders, change the outputPath in the Main.java
 
 	```
 	String outputPath = "AST.xml";
 	```
 
-4. The Main.java will not be generated automatically by javacc. So if you need to use the parser for aother purpose, please read the Main.java File to modify the file as the way you need.
+4. The Main.java will not be generated automatically by javacc. So if you need to use the parser for other purposes, please read the Main.java File and modify the file.
 
 5. email me if have any other questions regarding this project, email is in the Main.java File.
 
-6. If using JavaCC for the first time. The [JavaCC Tutorial](https://github.com/PosFrank/SQLParser/blob/master/javacc-tutorial.pdf) is a very good reference to learn how to use it. After following all the instructions in the tutorial. I believe it is understandable on this project.
+6. If using JavaCC for the first time. The [JavaCC Tutorial](https://github.com/PosFrank/SQLParser/blob/master/javacc-tutorial.pdf) is a very good reference to learn how to use it. After following all the instructions in the tutorial, I believe this project is quite understandable.
 
-Thanks
+Best
 
 Tianxiang
 
