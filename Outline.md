@@ -306,49 +306,6 @@ String Attr() :
 }
 ```
 
-### Prevent Left Recursion
-
-The parser can only check the next one more token. If the next token have more than one possible values. We need to be careful not separate it as left recursion. 
-
-For example, the Expression() method will find all the boolean factors and add BooleanExp in the case we have more than two boolean factors or has parenthesis in some of the boolean factors. In each call of this method, it will firstly check if there is parenthesis in this boolean expression, if true, we take the first boolean factor and check if there are parenthesis in this parenthesis and pass a true value to the next recursion in the case when we have"((...))" in the query. If hasFather == true means we have the ```<BooleanExp>...</BooleanExp>``` out of this time's call. Then we check if exp2 is empty. if exp2 is empty after the parsing. This means this time is the final BooleanFactor in this BooleanExpression and we don't want to have a single BooleanFactor in the BooleanExp, so we will not add ```<BooleanExp> ... </BooleanExp>``` out of it. If it has no father parenthesis out of it or exp2 not empty, we need to add the BooleanExp out of exp1 + exp2. Next, if the first token is not parenthesis, we need to check if this satisfy the boolean factor rules. So we call Factor() method to parse it. If the first factor is good, we need to check the next one. 
-```(< AND > exp2 = Expression(true))*``` can be a boolean factor or a parenthesis, so we call Expression() method again.
-
-```
-String Expression(boolean hasFather) :
-{
-  String exp1 = "";
-  String exp2 = "";
-}
-{
-  < OPEN_PAR > exp1 = Expression(true) < CLOSE_PAR >
-  (
-    < AND > exp2 = Expression(true)
-  )*
-  {
-    if (hasFather == true && exp2.equals(""))
-    {
-      return exp1;
-    }
-    return "<BooleanExp>" + exp1 + exp2 + "</BooleanExp>";
-  }
-| exp1 = Factor()
-  (
-    < AND > exp2 = Expression(true)
-  )*
-  {
-    /*the next check has the same function as the previous checking*/
-    if (hasFather == true && exp2.equals(""))
-    {
-      return exp1;
-    }
-    else
-    {
-      return "<BooleanExp>" + exp1 + exp2 + "</BooleanExp>";
-    }
-  }
-}
-```
-
 ### JJ File Conclusion
 
 So based on the ideas explained above, we can program a .jj file to Parse XML Query. For more details of how to implement jj file, please see the README file.
