@@ -150,7 +150,7 @@ In the example, the "where" part is:
 ```
 where e.Name = "Jonny" and (d.Name = c.MName and c.Salary > 7000) and d.Name = "James" and c.Name = d.Name
 ```
-We can The corresponding abstract syntax tree should corresponding to the same structure of this query, which is shown as below:
+The corresponding abstract syntax tree should corresponding to the same structure of this query, which is shown as below:
 ```
 <dbWhereClause>
 	<BooleanExp>
