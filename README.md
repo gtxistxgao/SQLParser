@@ -542,7 +542,7 @@ File "SimpleCharStream.java" does not exist.  Will create one.
 Parser generated with 0 errors and 0 warnings.
 ```
 
-Then we compile all the .java files.
+You may see several warnings because of the auto-generate files from JavaCC have several unreachable exceptions, which will not affect our program. In my case, I suppressed those warning so got 0 warnings. Then we compile all the .java files.
 
 ```
 franktekimbp:MyProgram frankgao$ javac *.java

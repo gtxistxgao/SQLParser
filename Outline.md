@@ -391,7 +391,7 @@ private static String parse(String input) {
 	return rst;
 }
 ```
-Then we can do something to the AST String. I will print it out and output it into an AST.xml file. That's it.
+You may see several warnings because of the auto-generate files from JavaCC have several unreachable exceptions, which will not affect our program. In my case, I suppressed those warning so got 0 warnings. Then we can do something to the AST String. I will print it out and output it into an AST.xml file. That's it.
 
 ## User Guide
 
