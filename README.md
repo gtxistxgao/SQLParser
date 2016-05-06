@@ -586,10 +586,11 @@ Then we can do something to the AST String. I will print it out and output it in
 
 4. The Main.java will not be generated automatically by javacc. So if you need to use the parser for other purposes, please read the Main.java File and modify the file.
 
-5. email me if have any other questions regarding this project, email is in the Main.java File.
+5. If using JavaCC for the first time. The [JavaCC Tutorial](https://github.com/PosFrank/SQLParser/blob/master/javacc-tutorial.pdf) is a very good reference to learn how to use it. After following all the instructions in the tutorial, I believe this project is quite understandable.
 
-6. If using JavaCC for the first time. The [JavaCC Tutorial](https://github.com/PosFrank/SQLParser/blob/master/javacc-tutorial.pdf) is a very good reference to learn how to use it. After following all the instructions in the tutorial, I believe this project is quite understandable.
+6. Email me if have any other questions regarding this project, email is in the Main.java File.
 
+Finally, thanks to the help from Qingqin Hou and Professor Shashi Gadia. 
 Best
 
 Tianxiang
