@@ -590,7 +590,7 @@ Then we can do something to the AST String. I will print it out and output it in
 
 6. Email me if have any other questions regarding this project, email is in the Main.java File.
 
-Finally, thanks to the help from Qingqin Hou and Professor Shashi Gadia. 
+Finally, thanks to the great help from Professor Shashi Gadia and Qingqin Hou. 
 
 Best
 
